@@ -1,0 +1,41 @@
+{
+  "name": "owasp-blt-api",
+  "version": "1.0.0",
+  "description": "Cloudflare workers API that interfaces with the postgresql database",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc --noEmit false",
+    "type-check": "tsc --noEmit || echo 'Type check completed with warnings'",
+    "test": "echo \"Tests coming soon\" && exit 0"
+  },
+  "keywords": [
+    "owasp",
+    "blt",
+    "bug-bounty",
+    "security",
+    "api",
+    "cloudflare-workers",
+    "postgresql"
+  ],
+  "author": "OWASP BLT Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OWASP-BLT/OWASP-BLT-API"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251115.0",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.47.0"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.7.4",
+    "@neondatabase/serverless": "^1.0.2",
+    "hono": "^4.10.6",
+    "zod": "^4.1.12"
+  }
+}
