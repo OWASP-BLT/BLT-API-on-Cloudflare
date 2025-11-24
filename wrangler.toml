@@ -8,7 +8,7 @@ pages_build_output_dir = "./public"
 
 # PostgreSQL database connection via Hyperdrive
 # Configure this with your actual Hyperdrive binding
-# [[hyperdrive]]
+# [hyperdrive]
 # binding = "DB"
 # id = "<your-hyperdrive-id>"
 
