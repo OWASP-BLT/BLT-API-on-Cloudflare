@@ -1,12 +1,19 @@
 # Deployment Guide
 
-This guide will help you deploy the OWASP BLT API to Cloudflare Workers.
+This guide will help you deploy the OWASP BLT API to Cloudflare Pages (with Functions).
 
 ## Prerequisites
 
 1. **Cloudflare Account**: Sign up at [cloudflare.com](https://cloudflare.com)
 2. **Wrangler CLI**: Already included in `node_modules` via npm install
 3. **PostgreSQL Database**: Set up a database (recommended: Neon, Supabase, or Hyperdrive)
+
+## Architecture
+
+This API is deployed as a **Cloudflare Pages project** with **Pages Functions**:
+- Static assets are served from the `/public` directory
+- API logic runs via Pages Functions in the `/functions` directory
+- The `[[path]].ts` catch-all function routes all requests to the Hono app
 
 ## Step 1: Set Up Database
 
@@ -43,55 +50,73 @@ Any PostgreSQL database with public access will work, but may have higher latenc
 npx wrangler login
 ```
 
-### Set Secrets
+### Set Environment Variables
+
+For Pages deployments, set environment variables in the Cloudflare dashboard:
+1. Go to Pages > your project > Settings > Environment variables
+2. Add the following variables:
+   - `DATABASE_URL` - PostgreSQL connection string
+   - `JWT_SECRET` - Secret for JWT authentication (optional)
+   - `ALLOWED_ORIGINS` - Comma-separated list of allowed origins for CORS
+
+Alternatively, use Wrangler CLI for Pages:
 
 ```bash
-# Set database connection string
-npx wrangler secret put DATABASE_URL
-# When prompted, paste your connection string
-
-# Set JWT secret (optional)
-npx wrangler secret put JWT_SECRET
-# When prompted, enter a secure random string
-
-# Set allowed CORS origins
-npx wrangler secret put ALLOWED_ORIGINS
-# When prompted, enter comma-separated origins like: https://blt.owasp.org,https://app.blt.owasp.org
+# Set environment variables for Pages
+npx wrangler pages secret put DATABASE_URL --project-name=owasp-blt-api
+npx wrangler pages secret put JWT_SECRET --project-name=owasp-blt-api
+npx wrangler pages secret put ALLOWED_ORIGINS --project-name=owasp-blt-api
 ```
 
 ## Step 3: Configure wrangler.toml
 
-Update `wrangler.toml` with your worker name and account details:
+The `wrangler.toml` is pre-configured for Pages deployment:
 
 ```toml
-name = "owasp-blt-api"  # Your worker name (must be unique)
-main = "src/index.ts"
+name = "owasp-blt-api"
 compatibility_date = "2024-11-15"
 compatibility_flags = ["nodejs_compat"]
 
-# Optional: Custom domain
-# routes = [
-#   { pattern = "api.yourdomain.com", custom_domain = true }
-# ]
+# Pages build output directory
+pages_build_output_dir = "./public"
 
 [vars]
 ENVIRONMENT = "production"
 ```
 
+Key points:
+- `pages_build_output_dir` tells Cloudflare where static assets are located
+- The `/functions` directory contains the API logic
+- No `main` field needed (that's for Workers-only deployments)
+
 ## Step 4: Deploy
+
+### Option A: Deploy via Git (Recommended)
+
+1. Push your code to GitHub/GitLab
+2. In Cloudflare dashboard, go to Pages > Create a project
+3. Connect your repository
+4. Configure build settings:
+   - Build command: (leave empty)
+   - Build output directory: `public`
+5. Set environment variables in the dashboard
+6. Deploy!
+
+### Option B: Deploy via Wrangler CLI
 
 ```bash
 # Type check before deploying
 npm run type-check
 
-# Deploy to Cloudflare Workers
-npm run deploy
+# Deploy to Cloudflare Pages
+npx wrangler pages deploy ./public --project-name=owasp-blt-api
 ```
 
-After successful deployment, you'll see your worker URL:
+After successful deployment, you'll see your Pages URL:
 ```
-Published owasp-blt-api (X.XX sec)
-  https://owasp-blt-api.your-subdomain.workers.dev
+✨ Deployment complete!
+  https://owasp-blt-api.pages.dev
+  https://<branch>.<project>.pages.dev
 ```
 
 ## Step 5: Test Deployment

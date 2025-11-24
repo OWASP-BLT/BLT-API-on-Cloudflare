@@ -5,6 +5,7 @@ package-lock.json
 # Build outputs
 dist/
 .wrangler/
+_worker.bundle
 
 # Environment
 .dev.vars

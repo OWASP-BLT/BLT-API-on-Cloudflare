@@ -1,10 +1,10 @@
 # OWASP BLT API
 
-A full-featured REST API for the [OWASP Bug Logging Tool (BLT)](https://github.com/OWASP-BLT/BLT) project, designed to run efficiently on Cloudflare Workers with PostgreSQL backend.
+A full-featured REST API for the [OWASP Bug Logging Tool (BLT)](https://github.com/OWASP-BLT/BLT) project, designed to run efficiently on Cloudflare Pages (with Functions) and PostgreSQL backend.
 
 ## Features
 
-- 🚀 **Cloudflare Workers** - Edge-optimized for global low-latency access
+- 🚀 **Cloudflare Pages + Functions** - Edge-optimized for global low-latency access
 - 🗄️ **PostgreSQL Backend** - Compatible with Neon, Hyperdrive, and standard PostgreSQL
 - 🔐 **Token Authentication** - Django REST Framework compatible authentication
 - 🛡️ **Security** - CORS support, rate limiting, and secure database connections
@@ -46,19 +46,19 @@ cp .env.example .dev.vars
 # Start local development server
 npm run dev
 
-# Access the API at http://localhost:8787
+# Access the API at http://localhost:8788
 ```
 
 ### Deployment
 
 ```bash
-# Deploy to Cloudflare Workers
+# Deploy to Cloudflare Pages
 npm run deploy
 
-# Set production secrets
-wrangler secret put DATABASE_URL
-wrangler secret put JWT_SECRET
-wrangler secret put ALLOWED_ORIGINS
+# Set production environment variables (via Cloudflare dashboard or CLI)
+npx wrangler pages secret put DATABASE_URL --project-name=owasp-blt-api
+npx wrangler pages secret put JWT_SECRET --project-name=owasp-blt-api
+npx wrangler pages secret put ALLOWED_ORIGINS --project-name=owasp-blt-api
 ```
 
 ## Configuration
@@ -86,7 +86,7 @@ For optimal performance on Cloudflare Workers, consider using:
 ### Base URL
 
 ```
-https://your-worker.workers.dev/api
+https://your-project.pages.dev/api
 ```
 
 ### Authentication
@@ -189,7 +189,7 @@ Rate limit headers:
 
 ### Tech Stack
 
-- **Runtime:** Cloudflare Workers (V8 isolates)
+- **Runtime:** Cloudflare Pages Functions (V8 isolates)
 - **Framework:** Hono (lightweight web framework)
 - **Database:** PostgreSQL via @neondatabase/serverless
 - **Language:** TypeScript
@@ -198,8 +198,12 @@ Rate limit headers:
 ### Project Structure
 
 ```
+functions/
+└── [[path]].ts          # Catch-all Pages Function routing to the API
+public/
+└── index.html           # Landing page for the API
 src/
-├── index.ts              # Main application entry
+├── index.ts              # Main application entry (Hono app)
 ├── types/
 │   ├── env.ts           # Environment types
 │   └── models.ts        # Database model types
