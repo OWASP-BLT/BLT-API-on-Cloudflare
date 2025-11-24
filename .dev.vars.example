@@ -1,0 +1,19 @@
+# Example environment variables for local development
+# Copy this file to .dev.vars and fill in your actual values
+
+# PostgreSQL database connection string
+# Examples:
+# Neon: postgres://user:pass@ep-cool-breeze-123456.us-east-2.aws.neon.tech/blt
+# Supabase: postgres://postgres:password@db.project.supabase.co:5432/postgres
+# Local: postgres://user:pass@localhost:5432/blt
+DATABASE_URL=postgres://user:password@host:5432/database
+
+# JWT secret for token signing (optional, if implementing JWT auth)
+JWT_SECRET=your-secret-key-here
+
+# Allowed CORS origins (comma-separated)
+# Use * for development, specific domains for production
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8000
+
+# Environment
+ENVIRONMENT=development
