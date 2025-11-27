@@ -2,6 +2,8 @@
 
 A full-featured REST API for the [OWASP Bug Logging Tool (BLT)](https://github.com/OWASP-BLT/BLT) project, designed to run efficiently on Cloudflare Workers with PostgreSQL backend.
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/OWASP-BLT/BLT-API-on-Cloudflare)
+
 ## Features
 
 - 🚀 **Cloudflare Workers** - Edge-optimized for global low-latency access
