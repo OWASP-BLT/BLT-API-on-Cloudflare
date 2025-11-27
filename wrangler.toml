@@ -1,7 +1,10 @@
 name = "owasp-blt-api"
-main = "src/index.ts"
 compatibility_date = "2024-11-15"
 compatibility_flags = ["nodejs_compat"]
+
+# Pages build output directory (for Cloudflare Pages deployments)
+# The API runs via Pages Functions in the /functions directory
+pages_build_output_dir = "./public"
 
 # PostgreSQL database connection via Hyperdrive
 # Configure this with your actual Hyperdrive binding
@@ -9,7 +12,7 @@ compatibility_flags = ["nodejs_compat"]
 # binding = "DB"
 # id = "<your-hyperdrive-id>"
 
-# Environment variables (set these via wrangler secret)
+# Environment variables (set these via wrangler secret or Pages environment variables)
 # DATABASE_URL - PostgreSQL connection string
 # JWT_SECRET - Secret for JWT authentication
 # ALLOWED_ORIGINS - Comma-separated list of allowed origins for CORS

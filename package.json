@@ -5,9 +5,10 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "dev": "wrangler pages dev ./public",
+    "deploy": "wrangler pages deploy ./public --project-name=owasp-blt-api",
     "build": "tsc --noEmit false",
+    "build:functions": "wrangler pages functions build",
     "type-check": "tsc --noEmit || echo 'Type check completed with warnings'",
     "test": "echo \"Tests coming soon\" && exit 0"
   },
