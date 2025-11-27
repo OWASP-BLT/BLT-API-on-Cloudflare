@@ -43,6 +43,23 @@ curl "<API_URL>/api/issues?domain=example.com"
 curl <API_URL>/api/issues/123
 ```
 
+### Create an Issue (Bug Reporting)
+
+Create a new issue/bug report. Authentication is optional; if a user token is provided, the issue will be associated with that user.
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  <API_URL>/api/issues \
+  -d '{
+    "url": "https://example.com/profile",
+    "description": "Save button does nothing when clicked",
+    "label": "functional",
+    "domain_id": 1,
+    "hunt_id": 2
+  }'
+```
+
 ### Like an Issue (Authentication Required)
 
 ```bash

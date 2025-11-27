@@ -138,6 +138,7 @@ Authorization: Token <your-token>
 
 - `GET /api/issues` - List all issues (with pagination, filtering)
 - `GET /api/issues/:id` - Get issue details
+- `POST /api/issues` - Create a new issue (instant bug reporting)
 - `POST /api/issues/:id/like` - Like/unlike an issue (auth required)
 - `POST /api/issues/:id/flag` - Flag/unflag an issue (auth required)
 

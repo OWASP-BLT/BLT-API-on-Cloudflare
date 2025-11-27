@@ -70,6 +70,7 @@ This implementation provides a **full-featured REST API** for the OWASP Bug Logg
 1. **Issues API (`src/routes/issues.ts`)** - 316 lines
    - List issues with pagination, filtering, search
    - Get single issue with full details
+   - Create new issues via POST `/api/issues` (instant bug reporting)
    - Like/unlike issues (authenticated)
    - Flag/unflag issues (authenticated)
    - Screenshot and tag support
@@ -207,9 +208,10 @@ This implementation provides a **full-featured REST API** for the OWASP Bug Logg
 
 ## API Endpoints Summary
 
-### Issues (4 endpoints)
+### Issues (5 endpoints)
 - `GET /api/issues` - List with pagination/filtering
 - `GET /api/issues/:id` - Get details
+- `POST /api/issues` - Create a new issue (instant bug reporting)
 - `POST /api/issues/:id/like` - Like/unlike
 - `POST /api/issues/:id/flag` - Flag/unflag
 
@@ -245,7 +247,7 @@ This implementation provides a **full-featured REST API** for the OWASP Bug Logg
 - `GET /api/stats/issues-by-label` - Label breakdown
 - `GET /api/stats/top-domains` - Top domains
 
-**Total: 24 API endpoints**
+**Total: 25 API endpoints**
 
 ## Technical Specifications
 

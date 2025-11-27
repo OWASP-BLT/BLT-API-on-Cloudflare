@@ -206,6 +206,90 @@ issues.get('/:id', optionalAuthMiddleware, async (c) => {
   }
 });
 
+
+/**
+ * POST /api/issues - Create a new issue (instant bug reporting)
+ */
+issues.post('/', optionalAuthMiddleware, async (c) => {
+  const sql = getDbClient(c.env) as any;
+  const user = c.get('user');
+
+  // 1. Read raw body text
+  const raw = await c.req.text();
+  console.log('[/api/issues] raw body =', raw);
+
+  let body: any;
+
+  // 2. First try: parse as proper JSON
+  try {
+    body = raw ? JSON.parse(raw) : {};
+  } catch {
+    // 3. Fallback: parse `{url:https://...,description:...}` style
+    const trimmed = raw.trim().replace(/^\{/, '').replace(/\}$/, '');
+    const parts = trimmed.split(',');
+
+    body = {};
+    for (const part of parts) {
+      if (!part.trim()) continue;
+      const [rawKey, ...rest] = part.split(':');
+      const key = rawKey.trim();
+      const value = rest.join(':').trim(); // keep ':' inside value (like in https://)
+      if (!key) continue;
+      body[key] = value;
+    }
+  }
+
+  const {
+    url,
+    description,
+    label,
+    domain_id,
+    hunt_id,
+  } = body ?? {};
+
+  // 4. Basic validation
+  if (
+    !url ||
+    typeof url !== 'string' ||
+    !description ||
+    typeof description !== 'string'
+  ) {
+    throw new HTTPException(400, {
+      message: 'url and description are required string fields',
+    });
+  }
+
+  try {
+    const userId = user ? user.id : null;
+
+    const inserted = await sql`
+      INSERT INTO website_issue (url, description, label, user_id, domain_id, hunt_id)
+      VALUES (${url}, ${description}, ${label ?? null}, ${userId}, ${domain_id ?? null}, ${hunt_id ?? null})
+      RETURNING id, url, description, label, status, created
+    `;
+
+    const issue = inserted[0];
+
+    return c.json(
+      {
+        id: issue.id,
+        url: issue.url,
+        description: issue.description,
+        label: issue.label,
+        status: issue.status,
+        created: issue.created,
+      },
+      201
+    );
+  } catch (error) {
+    console.error('Error creating issue:', error);
+    throw new HTTPException(500, {
+      message: 'Failed to create issue via bug reporting API',
+    });
+  }
+});
+
+
 /**
  * POST /api/issues/:id/like - Like/unlike an issue
  */
