@@ -2,6 +2,39 @@
 
 A full-featured REST API for the [OWASP Bug Logging Tool (BLT)](https://github.com/OWASP-BLT/BLT) project, designed to run efficiently on Cloudflare Workers with PostgreSQL backend.
 
+<!-- GitHub Badges -->
+[![License: MIT](https://img.shields.io/github/license/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/network/members)
+[![GitHub watchers](https://img.shields.io/github/watchers/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/watchers)
+[![GitHub issues](https://img.shields.io/github/issues/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/pulls)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/pulls?q=is%3Apr+is%3Aclosed)
+[![GitHub contributors](https://img.shields.io/github/contributors/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/commits)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/commits)
+[![GitHub repo size](https://img.shields.io/github/repo-size/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare)
+[![GitHub code size](https://img.shields.io/github/languages/code-size/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare)
+[![GitHub top language](https://img.shields.io/github/languages/top/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare)
+[![GitHub language count](https://img.shields.io/github/languages/count/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare)
+[![GitHub release](https://img.shields.io/github/v/release/OWASP-BLT/BLT-API-on-Cloudflare?include_prereleases)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/releases)
+[![GitHub tag](https://img.shields.io/github/v/tag/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/tags)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/blob/main/package.json)
+[![GitHub Created At](https://img.shields.io/github/created-at/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare)
+[![GitHub discussions](https://img.shields.io/github/discussions/OWASP-BLT/BLT-API-on-Cloudflare)](https://github.com/OWASP-BLT/BLT-API-on-Cloudflare/discussions)
+
+<!-- Technology Badges -->
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
+[![Hono](https://img.shields.io/badge/Hono-E36002?logo=hono&logoColor=white)](https://hono.dev/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+
+<!-- OWASP Badge -->
+[![OWASP Lab Project](https://img.shields.io/badge/OWASP-Lab%20Project-yellow)](https://owasp.org/www-project-bug-logging-tool/)
+
+<!-- Deploy Button -->
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/OWASP-BLT/BLT-API-on-Cloudflare)
 
 ## Features
