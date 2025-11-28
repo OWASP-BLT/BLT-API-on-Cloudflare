@@ -207,6 +207,114 @@ issues.get('/:id', optionalAuthMiddleware, async (c) => {
 });
 
 /**
+ * POST /api/issues - Create a new issue (instant bug reporting)
+ */
+issues.post('/', optionalAuthMiddleware, async (c) => {
+  const sql = getDbClient(c.env);
+  const user = c.get('user') as { id: number } | undefined;
+
+  // 1. Parse JSON body strictly
+  let body: any;
+  try {
+    body = await c.req.json();
+  } catch {
+    throw new HTTPException(400, { message: 'Invalid JSON body' });
+  }
+
+  const {
+    url,
+    description,
+    label,
+    domain_id,
+    hunt_id,
+  } = body ?? {};
+
+  // 2. Basic presence + type checks
+  if (
+    !url ||
+    typeof url !== 'string' ||
+    !description ||
+    typeof description !== 'string'
+  ) {
+    throw new HTTPException(400, {
+      message: 'url and description are required string fields',
+    });
+  }
+
+  // 3. URL format validation
+  try {
+    // throws if invalid URL
+    new URL(url);
+  } catch {
+    throw new HTTPException(400, { message: 'Invalid URL format' });
+  }
+
+  // 4. Label validation (integer 0–8)
+  let numericLabel: number | null = null;
+  if (label !== undefined && label !== null) {
+    const asNumber = Number(label);
+    if (!Number.isInteger(asNumber) || asNumber < 0 || asNumber > 8) {
+      throw new HTTPException(400, {
+        message: 'label must be an integer between 0 and 8',
+      });
+    }
+    numericLabel = asNumber;
+  }
+
+  // 5. Length limits
+  if (url.length > 2000) {
+    throw new HTTPException(400, {
+      message: 'url is too long (max 2000 characters)',
+    });
+  }
+
+  if (description.length > 5000) {
+    throw new HTTPException(400, {
+      message: 'description is too long (max 5000 characters)',
+    });
+  }
+
+  try {
+    const userId = user ? user.id : null;
+
+    const inserted = await sql`
+      INSERT INTO website_issue (url, description, label, user_id, domain_id, hunt_id)
+      VALUES (${url}, ${description}, ${numericLabel}, ${userId}, ${domain_id ?? null}, ${hunt_id ?? null})
+      RETURNING id, url, description, label, status, created
+    `;
+
+    const issue = inserted[0];
+
+    return c.json(
+      {
+        id: issue.id,
+        url: issue.url,
+        description: issue.description,
+        label: issue.label,
+        status: issue.status,
+        created: issue.created,
+      },
+      201
+    );
+  } catch (error) {
+    const pgCode = (error as any)?.code;
+
+    // 23503 = foreign key violation (likely bad domain_id / hunt_id)
+    if (pgCode === '23503') {
+      throw new HTTPException(400, {
+        message: 'Invalid domain_id or hunt_id',
+      });
+    }
+
+    console.error('Error creating issue via bug reporting API:', error);
+    throw new HTTPException(500, {
+      message: 'Failed to create issue via bug reporting API',
+    });
+  }
+});
+
+
+/**
  * POST /api/issues/:id/like - Like/unlike an issue
  */
 issues.post('/:id/like', authMiddleware, async (c) => {
